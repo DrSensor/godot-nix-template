@@ -1,0 +1,25 @@
+{ // TODO: use TOML format
+	"godot-editor": {
+		"version": "3.2.3",
+		"sha512": ""
+	},
+	"build": {
+		"mobile-release": {
+			"godot": {
+				"version": "3.2.4-beta6",
+				"sha512": "",
+			},
+			"scons": "custom.py",
+			"export": "Android"
+		},
+		"dump": {
+			"godot": "master",
+			"scons": {
+				"config": "mobile.py",
+				"flags": "tools=no target=debug p=linux"
+			}
+			"export": "pck",
+			"debug": true
+		}
+	}
+}
