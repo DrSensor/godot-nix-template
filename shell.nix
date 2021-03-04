@@ -1,26 +1,28 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> {}
+, system ? builtins.currentSystem
+}: let
+  inherit (pkgs) stdenv callPackage;
+  inherit (stdenv) mkDerivation;
 
-let
-#godot = import ./default.nix { inherit pkgsi; };
-godot = pkgs.godot;
+  # android-size-analyzer = mkDerivation rec {
+  #   pname = "android-size-analyzer";
+  #   version = "0.4.0";
+  #   src = fetchTarball "https://github.com/android/size-analyzer/releases/download/v${version}/analyzer.tar";
+  #   buildInputs = [ jre_minimal ];
+  #   unpackPhase = "true"; #skip
+  #   # TODO: where to put those executable .jar ??
+  #   installPhase = ''
+  #     install -m755 -D $src/bin/analyzer.jar $out/bin/${pname}.jar
+  #   '';
+  # };
 
-# https://nixos.org/manual/nixpkgs/stable/#sec-pkg-overrideAttrs
-myGodot = godot.overrideAttrs (oldAttrs: rec {
-  pname = "godot-server";
-  sconsFlags = "target=release platform=server tools=no";
-  installPhase = ''
-    mkdir -p "$out/bin"
-    cp bin/godot_server.* $out/bin/godot-server
-    mkdir "$dev"
-    cp -r modules/gdnative/include $dev
-    mkdir -p "$man/share/man/man6"
-    cp misc/dist/linux/godot.6 "$man/share/man/man6/"
-  '';
-});
+  graphics = callPackage (
+    fetchTarball "https://github.com/guibou/nixGL/archive/master.tar.gz"
+  ) {};
 
-in with pkgs;
-
-mkShell {
-
-}
-
+in
+  with pkgs;
+  mkShell {
+    buildInputs = with graphics;
+      [ nixGLDefault godot ];
+  }
