@@ -6,6 +6,7 @@
   inherit (builtins) getEnv;
 
   shared = callPackage ./share.nix {};
+  inherit (shared) env;
 
   # android-size-analyzer = mkDerivation rec {
   #   pname = "android-size-analyzer";
@@ -24,9 +25,8 @@
     fetchTarball "https://github.com/guibou/nixGL/archive/master.tar.gz"
   ) {};
 
-  ROOT_PROJECT = toString ./.;
 in
-  with pkgs;
+  with pkgs; with env;
   mkShell rec {
     buildInputs = with graphics;
       [ nixGLDefault godot ]
@@ -34,8 +34,8 @@ in
       # ++ [ openssl ] # TODO: generate encryption key if project.gdkey is missing
     ;
     # TODO: set `NIX_CONFIG = "extra-sandbox-paths = XDG_CACHE_HOME"` when nix v2.4 hit stable release
-    inherit (shared.env) XDG_CACHE_HOME;
+    inherit XDG_CACHE_HOME;
     shellHook = ''
-      mkdir -m777 -p ${shared.cache.scons}
+      mkdir -m777 -p ${SCONS_CACHE}
     '';
   }

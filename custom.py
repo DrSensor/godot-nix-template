@@ -1,15 +1,21 @@
+import os
+
+############### DON'T MODIFY ###############
+LINKFLAGS = os.getenv("LINKFLAGS")
+
 use_llvm = "yes"
 use_lld = "yes"
-# use_lto = "yes"
-# use_thinlto = "yes"
 tools = "no"
+############### 👆👆👆👆👆👆 ###############
 
 target = "debug"
+# production = "yes"
+# use_lto = "yes"
+# use_thinlto = "yes"
 extra_suffix = "nofeat"
 
-arch = "x64"
 platform = "x11"
-# production = "yes"
+arch = "x64"
 
 deprecated = "no"
 minizip = "no"
@@ -17,10 +23,12 @@ use_static_cpp = "no"
 execinfo = "no"
 gdscript = "no"
 
+# Linux
 pulseaudio = "no"
 udev = "no"
 xaudio2 = "no"
 touch = "no"
+
 disable_3d = "yes"
 disable_advanced_gui = "yes"
 no_editor_splash = "yes"
@@ -35,10 +43,10 @@ builtin_libtheora = "no"
 builtin_libvorbis = "no"
 builtin_libvpx = "no"
 builtin_libwebp = "no"
-# builtin_wslay = "no"		# not in <nixpkgs>
-# builtin_squish = "no"		# not in <nixpkgs>
-# builtin_mbedtls = "no"	# in <nixpkgs> but no .pc file
-# builtin_miniupnpc = "no"	# in <nixpkgs> but no .pc file
+# builtin_wslay = "no"     # not in <nixpkgs>
+# builtin_squish = "no"    # not in <nixpkgs>
+builtin_mbedtls = "no"     # in <nixpkgs> but no .pc file
+builtin_miniupnpc = "no"   # in <nixpkgs> but no .pc file
 builtin_opus = "no"
 builtin_pcre2 = "no"
 builtin_pcre2_with_jit = "no"

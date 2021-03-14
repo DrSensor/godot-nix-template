@@ -9,18 +9,15 @@
 
   # hint(cache-build): https://leanprover.github.io/lean4/doc/make/nix.html
   export-template = godot.overrideAttrs (
-    old: {
+    old: rec {
       pname = "my-godot-template"; # TODO: should be from project.godot
       buildInputs = with pkgs; [ clang lld ]
       ++ shared.libs
       ++ old.buildInputs;
       sconsFlags = "profile=${profile}";
       preConfigure = "";
-      inherit (shared.env) XDG_CACHE_HOME; # TODO: should be from environment variable instead of hardcoded
-      preBuild = if cache then ''
-        export SCONS_CACHE=${shared.cache.scons}
-        export SCONS_CACHE_LIMIT=5000
-      '' else "";
+      inherit (shared.env) LINKFLAGS SCONS_CACHE;
+      SCONS_CACHE_LIMIT = "5000";
     }
   );
 in
